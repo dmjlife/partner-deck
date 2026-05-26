@@ -228,12 +228,9 @@ body {
 }
 
 .nav-grid {
-    position: fixed;
-    bottom: 64px;
-    right: 36px;
-    display: grid;
+    display: none !important;
     grid-template-columns: repeat(var(--cols), 14px);
-    grid-template-rows: repeat(2, 14px);
+    grid-template-rows: repeat(var(--rows, 2), 14px);
     gap: 5px;
     z-index: 200;
 }

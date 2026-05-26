@@ -215,7 +215,7 @@ function App() {
       <nav
         className="nav-grid"
         id="navGrid"
-        style={{ '--cols': COLS } as React.CSSProperties}
+        style={{ '--cols': COLS, '--rows': ROWS } as React.CSSProperties}
       >
         {Array.from({ length: ROWS }).map((_, r) =>
           Array.from({ length: COLS }).map((_, c) => (
