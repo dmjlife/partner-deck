@@ -1,11 +1,12 @@
-import CoPilotVideo from './slides/CoPilotVideo';
-import WhoVideo from './slides/WhoVideo';
-import WhyVideo from './slides/WhyVideo';
-import WhatVideo from './slides/WhatVideo';
-import WhenVideo from './slides/WhenVideo';
-import StackVideo from './slides/StackVideo';
-import InvestmentVideo from './slides/InvestmentVideo';
-import QuerenciaVideo from './slides/QuerenciaVideo';
+import CoPilot from './slides/1.CoPilot';
+import Who from './slides/2.Who';
+import Why from './slides/3.Why';
+import What from './slides/4.What';
+import When from './slides/5.When';
+import Stack from './slides/6.Stack';
+import Investment from './slides/7.Investment';
+import Querencia from './slides/8.Querencia';
+import Pricing from './slides/9.Pricing';
 
 export const sectionNames = [
   'Co-Pilot',
@@ -15,21 +16,23 @@ export const sectionNames = [
   'When',
   'Stack',
   'Investment',
-  'Querencia'
+  'Querencia',
+  'Pricing'
 ];
 
-export const COLS = 8;
+export const COLS = 9;
 export const ROWS = 1;
 
 export const deckGrid: React.ComponentType[][] = [
   [
-    CoPilotVideo,
-    WhoVideo,
-    WhyVideo,
-    WhatVideo,
-    WhenVideo,
-    StackVideo,
-    InvestmentVideo,
-    QuerenciaVideo
+    CoPilot,
+    Who,
+    Why,
+    What,
+    When,
+    Stack,
+    Investment,
+    Querencia,
+    Pricing
   ]
 ];
