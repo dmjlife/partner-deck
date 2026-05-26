@@ -1,3 +1,4 @@
+import Intro from './slides/0.Intro';
 import CoPilot from './slides/1.CoPilot';
 import Who from './slides/2.Who';
 import Why from './slides/3.Why';
@@ -9,6 +10,7 @@ import Querencia from './slides/8.Querencia';
 import Pricing from './slides/9.Pricing';
 
 export const sectionNames = [
+  'Intro',
   'Co-Pilot',
   'Who',
   'Why',
@@ -20,11 +22,12 @@ export const sectionNames = [
   'Pricing'
 ];
 
-export const COLS = 9;
+export const COLS = 10;
 export const ROWS = 1;
 
 export const deckGrid: React.ComponentType[][] = [
   [
+    Intro,
     CoPilot,
     Who,
     Why,

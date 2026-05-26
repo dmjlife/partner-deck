@@ -6,6 +6,7 @@ function App() {
   const [row, setRow] = useState(0);
   const [kbHintVisible, setKbHintVisible] = useState(true);
   const [kbHintFade, setKbHintFade] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const lastWheelRef = useRef(0);
   const touchStartRef = useRef({ x: 0, y: 0 });
@@ -21,6 +22,7 @@ function App() {
     if (c < 0 || c >= COLS || r < 0 || r >= ROWS) return;
     setCol(c);
     setRow(r);
+    setMenuOpen(false);
     dismissHint();
   };
 
@@ -227,6 +229,37 @@ function App() {
             />
           ))
         )}
+      </nav>
+
+      {/* Hamburger menu */}
+      <button
+        className={`hamburger ${menuOpen ? 'open' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {menuOpen && (
+        <div className="menu-overlay" onClick={() => setMenuOpen(false)} />
+      )}
+
+      <nav className={`slide-menu ${menuOpen ? 'open' : ''}`}>
+        <ul>
+          {sectionNames.map((name, i) => (
+            <li key={i}>
+              <button
+                className={`menu-item ${col === i ? 'active' : ''}`}
+                onClick={() => goTo(i, 0)}
+              >
+                <span className="menu-num">{String(i).padStart(2, '0')}</span>
+                <span className="menu-name">{name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
       </nav>
 
       {/* Keyboard hint */}
