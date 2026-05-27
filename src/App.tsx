@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { deckGrid, sectionNames, COLS, ROWS } from './deckConfig';
+import React, { useState, useEffect, useRef } from "react";
+import { deckGrid, sectionNames, COLS, ROWS } from "./deckConfig";
 
 function App() {
   const [col, setCol] = useState(0);
@@ -30,19 +30,19 @@ function App() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.key) {
-        case 'ArrowRight':
-          goTo(col + 1, row);
+        case "ArrowRight":
+          goTo(col + 1, 0);
           e.preventDefault();
           break;
-        case 'ArrowLeft':
-          goTo(col - 1, row);
+        case "ArrowLeft":
+          goTo(col - 1, 0);
           e.preventDefault();
           break;
-        case 'ArrowDown':
+        case "ArrowDown":
           goTo(col, row + 1);
           e.preventDefault();
           break;
-        case 'ArrowUp':
+        case "ArrowUp":
           goTo(col, row - 1);
           e.preventDefault();
           break;
@@ -50,8 +50,8 @@ function App() {
           break;
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [col, row]);
 
   // Wheel navigation
@@ -65,10 +65,31 @@ function App() {
       const ay = Math.abs(e.deltaY);
 
       if (ax > ay && ax > 25) {
-        if (e.deltaX > 0) goTo(col + 1, row);
-        else goTo(col - 1, row);
+        if (e.deltaX > 0) goTo(col + 1, 0);
+        else goTo(col - 1, 0);
         lastWheelRef.current = now;
       } else if (ay > ax && ay > 25) {
+        // Allow scrolling inside scrollable text slides
+        const slide = (e.target as HTMLElement).closest(".slide.text-slide");
+        if (slide) {
+          const el = slide as HTMLElement;
+          const atTop = el.scrollTop <= 0;
+          const atBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+          if (e.deltaY > 0 && !atBottom) return; // let it scroll down
+          if (e.deltaY < 0 && !atTop) return; // let it scroll up
+          if (atTop && e.deltaY < 0) {
+            goTo(col, row - 1);
+            lastWheelRef.current = now;
+            return;
+          }
+          if (atBottom && e.deltaY > 0) {
+            goTo(col, row + 1);
+            lastWheelRef.current = now;
+            return;
+          }
+          return;
+        }
         if (e.deltaY > 0) goTo(col, row + 1);
         else goTo(col, row - 1);
         lastWheelRef.current = now;
@@ -76,8 +97,8 @@ function App() {
       e.preventDefault();
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
   }, [col, row]);
 
   // Touch/Swipe navigation
@@ -98,20 +119,39 @@ function App() {
       if (Math.max(ax, ay) < 50) return;
 
       if (ax > ay) {
-        if (dx < 0) goTo(col + 1, row);
-        else goTo(col - 1, row);
+        if (dx < 0) goTo(col + 1, 0);
+        else goTo(col - 1, 0);
       } else {
+        // Allow scrolling inside scrollable text slides
+        const slide = (e.target as HTMLElement).closest(".slide.text-slide");
+        if (slide) {
+          const el = slide as HTMLElement;
+          const atTop = el.scrollTop <= 0;
+          const atBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+          if (dy < 0 && !atBottom) return;
+          if (dy > 0 && !atTop) return;
+          if (atTop && dy > 0) {
+            goTo(col, row - 1);
+            return;
+          }
+          if (atBottom && dy < 0) {
+            goTo(col, row + 1);
+            return;
+          }
+          return;
+        }
         if (dy < 0) goTo(col, row + 1);
         else goTo(col, row - 1);
       }
     };
 
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
 
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [col, row]);
 
@@ -139,7 +179,7 @@ function App() {
             return (
               <div
                 key={`${rowIndex}-${colIndex}`}
-                className={`slide ${isVideo ? 'video-slide' : 'text-slide'}`}
+                className={`slide ${isVideo ? "video-slide" : "text-slide"}`}
                 data-col={colIndex}
                 data-row={rowIndex}
                 style={{
@@ -150,18 +190,18 @@ function App() {
                 <SlideComponent />
               </div>
             );
-          })
+          }),
         )}
       </div>
 
       {/* Mobile top nav */}
       <nav className="mobile-nav" id="mobileNav">
         <button
-          className={`mobile-nav-btn ${col <= 0 ? 'disabled' : ''}`}
+          className={`mobile-nav-btn ${col <= 0 ? "disabled" : ""}`}
           id="mobPrev"
           type="button"
           aria-label="Previous section"
-          onClick={() => goTo(col - 1, row)}
+          onClick={() => goTo(col - 1, 0)}
         >
           &#8592;
         </button>
@@ -169,11 +209,11 @@ function App() {
           {col + 1} / {COLS} &nbsp;&nbsp; {sectionNames[col]}
         </span>
         <button
-          className={`mobile-nav-btn ${col >= COLS - 1 ? 'disabled' : ''}`}
+          className={`mobile-nav-btn ${col >= COLS - 1 ? "disabled" : ""}`}
           id="mobNext"
           type="button"
           aria-label="Next section"
-          onClick={() => goTo(col + 1, row)}
+          onClick={() => goTo(col + 1, 0)}
         >
           &#8594;
         </button>
@@ -181,7 +221,7 @@ function App() {
 
       {/* Direction hints */}
       <div
-        className={`dir-hint dir-down ${row >= ROWS - 1 ? 'hidden' : ''}`}
+        className={`dir-hint dir-down ${row >= ROWS - 1 ? "hidden" : ""}`}
         id="hintDown"
         title="Details"
         onClick={() => goTo(col, row + 1)}
@@ -190,7 +230,7 @@ function App() {
         <span>Details</span>
       </div>
       <div
-        className={`dir-hint dir-up ${row <= 0 ? 'hidden' : ''}`}
+        className={`dir-hint dir-up ${row <= 0 ? "hidden" : ""}`}
         id="hintUp"
         title="Back"
         onClick={() => goTo(col, row - 1)}
@@ -199,16 +239,16 @@ function App() {
         <span className="arrow">&#8593;</span>
       </div>
       <div
-        className={`dir-hint dir-left ${col <= 0 ? 'hidden' : ''}`}
+        className={`dir-hint dir-left ${col <= 0 ? "hidden" : ""}`}
         id="hintLeft"
-        onClick={() => goTo(col - 1, row)}
+        onClick={() => goTo(col - 1, 0)}
       >
         <span className="arrow">&#8592;</span>
       </div>
       <div
-        className={`dir-hint dir-right ${col >= COLS - 1 ? 'hidden' : ''}`}
+        className={`dir-hint dir-right ${col >= COLS - 1 ? "hidden" : ""}`}
         id="hintRight"
-        onClick={() => goTo(col + 1, row)}
+        onClick={() => goTo(col + 1, 0)}
       >
         <span className="arrow">&#8594;</span>
       </div>
@@ -217,23 +257,23 @@ function App() {
       <nav
         className="nav-grid"
         id="navGrid"
-        style={{ '--cols': COLS, '--rows': ROWS } as React.CSSProperties}
+        style={{ "--cols": COLS, "--rows": ROWS } as React.CSSProperties}
       >
         {Array.from({ length: ROWS }).map((_, r) =>
           Array.from({ length: COLS }).map((_, c) => (
             <button
               key={`${r}-${c}`}
-              className={`nav-dot ${col === c && row === r ? 'active' : ''}`}
-              title={r === 0 ? 'Video' : 'Text'}
+              className={`nav-dot ${col === c && row === r ? "active" : ""}`}
+              title={r === 0 ? "Video" : "Text"}
               onClick={() => goTo(c, r)}
             />
-          ))
+          )),
         )}
       </nav>
 
       {/* Hamburger menu */}
       <button
-        className={`hamburger ${menuOpen ? 'open' : ''}`}
+        className={`hamburger ${menuOpen ? "open" : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Menu"
       >
@@ -246,15 +286,15 @@ function App() {
         <div className="menu-overlay" onClick={() => setMenuOpen(false)} />
       )}
 
-      <nav className={`slide-menu ${menuOpen ? 'open' : ''}`}>
+      <nav className={`slide-menu ${menuOpen ? "open" : ""}`}>
         <ul>
           {sectionNames.map((name, i) => (
             <li key={i}>
               <button
-                className={`menu-item ${col === i ? 'active' : ''}`}
+                className={`menu-item ${col === i ? "active" : ""}`}
                 onClick={() => goTo(i, 0)}
               >
-                <span className="menu-num">{String(i).padStart(2, '0')}</span>
+                <span className="menu-num">{String(i).padStart(2, "0")}</span>
                 <span className="menu-name">{name}</span>
               </button>
             </li>
@@ -264,7 +304,10 @@ function App() {
 
       {/* Keyboard hint */}
       {kbHintVisible && (
-        <div className={`keyboard-hint ${kbHintFade ? 'fade' : ''}`} id="kbHint">
+        <div
+          className={`keyboard-hint ${kbHintFade ? "fade" : ""}`}
+          id="kbHint"
+        >
           Swipe or use arrow keys to navigate
         </div>
       )}

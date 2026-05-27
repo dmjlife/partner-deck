@@ -1,3 +1,12 @@
+/* ==========================================================================
+   DECK — Presentation Slide Styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. RESET & BASE
+   Global resets, html/body defaults
+   -------------------------------------------------------------------------- */
+
 *,
 *::before,
 *::after {
@@ -11,11 +20,20 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+        system-ui,
+        -apple-system,
+        sans-serif;
     background: #fff;
     color: #111;
     -webkit-font-smoothing: antialiased;
 }
+
+/* --------------------------------------------------------------------------
+   2. VIEWPORT & CONTAINER
+   The outer viewport clips to one screen; the container holds all slides
+   and is translated to navigate between them
+   -------------------------------------------------------------------------- */
 
 .viewport {
     width: 100vw;
@@ -33,6 +51,11 @@ body {
     will-change: transform;
 }
 
+/* --------------------------------------------------------------------------
+   3. SLIDES — Shared
+   Each slide is a full-viewport panel positioned absolutely in the grid
+   -------------------------------------------------------------------------- */
+
 .slide {
     position: absolute;
     width: 100vw;
@@ -46,19 +69,21 @@ body {
     overflow: hidden;
 }
 
+/* --------------------------------------------------------------------------
+   4. SLIDES — Video (row 0)
+   Top-level slides with video placeholder, heading, and subtitle
+   -------------------------------------------------------------------------- */
+
 .slide.video-slide {
     background: #fff;
 }
 
-.slide.text-slide {
-    background: #fafafa;
-}
-
+/* Section number badge (top-left corner) */
 .section-num {
     position: absolute;
     top: 36px;
     left: 56px;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 15px;
     color: #ccc;
     letter-spacing: 3px;
@@ -69,6 +94,7 @@ body {
     color: #999;
 }
 
+/* Video placeholder frame */
 .video-frame {
     width: min(780px, 68vw);
     aspect-ratio: 16 / 9;
@@ -80,9 +106,12 @@ body {
     align-items: center;
     gap: 14px;
     position: relative;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.12),
+        0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
+/* Play button inside video frame */
 .play-btn {
     width: 68px;
     height: 68px;
@@ -107,6 +136,7 @@ body {
     margin-left: 3px;
 }
 
+/* "Add your video" label */
 .video-label {
     color: rgba(255, 255, 255, 0.3);
     font-size: 13px;
@@ -114,8 +144,9 @@ body {
     text-transform: uppercase;
 }
 
+/* Heading below video */
 .slide-heading {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 30px;
     font-weight: 400;
     margin-top: 28px;
@@ -123,6 +154,7 @@ body {
     text-align: center;
 }
 
+/* Subtitle below heading */
 .slide-sub {
     font-size: 15px;
     color: #999;
@@ -130,19 +162,34 @@ body {
     text-align: center;
 }
 
+/* --------------------------------------------------------------------------
+   5. SLIDES — Text / Detail (row 1)
+   Scrollable detail slides with rich text content
+   -------------------------------------------------------------------------- */
+
+.slide.text-slide {
+    background: #fafafa;
+    overflow-y: auto;
+    justify-content: flex-start;
+    padding-top: 80px;
+}
+
+/* Text content wrapper — constrains width and provides typography */
 .text-content {
     max-width: 600px;
     width: 100%;
+    padding-top: 60px;
 }
 
 .text-content h2 {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 34px;
     font-weight: 400;
     margin-bottom: 10px;
     color: #111;
 }
 
+/* Short horizontal rule below headings */
 .text-content .divider {
     width: 40px;
     height: 2px;
@@ -161,14 +208,16 @@ body {
     margin-bottom: 0;
 }
 
+/* Emphasised / pull-quote style paragraph */
 .text-content .highlight {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 20px;
     color: #111;
     line-height: 1.6;
     margin-bottom: 20px;
 }
 
+/* Structured item list (title + description pairs) */
 .item-list {
     list-style: none;
     margin-top: 24px;
@@ -181,14 +230,16 @@ body {
     padding-left: 0;
 }
 
+/* Optional numbered label inside item list */
 .item-list .item-num {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 14px;
     color: #bbb;
     margin-bottom: 4px;
     letter-spacing: 1px;
 }
 
+/* Bold title line for each item */
 .item-list .item-title {
     font-size: 18px;
     font-weight: 500;
@@ -196,12 +247,14 @@ body {
     margin-bottom: 2px;
 }
 
+/* Lighter description below item title */
 .item-list .item-desc {
     font-size: 15px;
     color: #777;
     line-height: 1.5;
 }
 
+/* Contact / link list (e.g. web, email) */
 .contact-links {
     list-style: none;
     margin-top: 20px;
@@ -226,6 +279,11 @@ body {
     width: 100px;
     flex-shrink: 0;
 }
+
+/* --------------------------------------------------------------------------
+   6. NAVIGATION — Dot Grid
+   Small dot grid (currently hidden) for direct slide access
+   -------------------------------------------------------------------------- */
 
 .nav-grid {
     display: none !important;
@@ -257,6 +315,11 @@ body {
     transform: scale(1.15);
 }
 
+/* --------------------------------------------------------------------------
+   7. NAVIGATION — Direction Hints
+   Fixed arrows on screen edges that hint at available navigation directions
+   -------------------------------------------------------------------------- */
+
 .dir-hint {
     position: fixed;
     z-index: 200;
@@ -267,7 +330,9 @@ body {
     text-transform: uppercase;
     color: #bbb;
     cursor: pointer;
-    transition: opacity 0.4s ease, color 0.2s;
+    transition:
+        opacity 0.4s ease,
+        color 0.2s;
     user-select: none;
 }
 
@@ -280,6 +345,7 @@ body {
     pointer-events: none;
 }
 
+/* Down arrow — "Details" */
 .dir-down {
     bottom: 64px;
     left: 50%;
@@ -289,6 +355,7 @@ body {
     animation: float-down 2.2s ease-in-out infinite;
 }
 
+/* Up arrow — "Overview" */
 .dir-up {
     top: 36px;
     left: 50%;
@@ -298,6 +365,7 @@ body {
     animation: float-up 2.2s ease-in-out infinite;
 }
 
+/* Left arrow — previous section */
 .dir-left {
     left: 28px;
     top: 50%;
@@ -305,6 +373,7 @@ body {
     gap: 6px;
 }
 
+/* Right arrow — next section */
 .dir-right {
     right: 28px;
     top: 50%;
@@ -317,25 +386,22 @@ body {
     font-weight: 300;
 }
 
+/* Floating animations for up/down hints */
 @keyframes float-down {
-
     0%,
     100% {
         transform: translateX(-50%) translateY(0);
     }
-
     50% {
         transform: translateX(-50%) translateY(5px);
     }
 }
 
 @keyframes float-up {
-
     0%,
     100% {
         transform: translateX(-50%) translateY(0);
     }
-
     50% {
         transform: translateX(-50%) translateY(-5px);
     }
@@ -344,6 +410,11 @@ body {
 .dir-hint.hidden {
     animation: none;
 }
+
+/* --------------------------------------------------------------------------
+   8. NAVIGATION — Mobile Bottom Bar
+   Fixed bottom nav with prev/next buttons and section title
+   -------------------------------------------------------------------------- */
 
 .mobile-nav {
     display: none;
@@ -387,7 +458,7 @@ body {
 }
 
 .mobile-nav-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 14px;
     color: #555;
     letter-spacing: 1px;
@@ -399,6 +470,11 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* --------------------------------------------------------------------------
+   9. KEYBOARD HINT
+   Transient overlay shown on first load to prompt navigation
+   -------------------------------------------------------------------------- */
 
 .keyboard-hint {
     position: fixed;
@@ -422,14 +498,18 @@ body {
     opacity: 0;
 }
 
-/* Pricing slide */
+/* --------------------------------------------------------------------------
+   10. PRICING SLIDE
+   Three-column pricing card layout
+   -------------------------------------------------------------------------- */
+
 .pricing-content {
     max-width: 860px;
     width: 100%;
 }
 
 .pricing-content h2 {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 34px;
     font-weight: 400;
     margin-bottom: 10px;
@@ -449,6 +529,7 @@ body {
     gap: 24px;
 }
 
+/* Individual pricing card */
 .pricing-card {
     background: #fafafa;
     border: 1px solid #eee;
@@ -459,7 +540,9 @@ body {
     align-items: center;
     text-align: center;
     position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 .pricing-card:hover {
@@ -467,12 +550,14 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
+/* Featured (dark) card variant */
 .pricing-card.featured {
     background: #111;
     border-color: #111;
     color: #fff;
 }
 
+/* "Recommended" badge */
 .pricing-badge {
     position: absolute;
     top: -10px;
@@ -490,6 +575,7 @@ body {
     color: #111;
 }
 
+/* Tier label (e.g. "Tier 1") */
 .pricing-tier {
     font-size: 13px;
     letter-spacing: 2px;
@@ -502,8 +588,9 @@ body {
     color: rgba(255, 255, 255, 0.5);
 }
 
+/* Price amount (e.g. "$100k") */
 .pricing-amount {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 42px;
     font-weight: 400;
     color: #111;
@@ -514,6 +601,7 @@ body {
     color: #fff;
 }
 
+/* Label below price (e.g. "Strategic Partner") */
 .pricing-label {
     font-size: 14px;
     color: #999;
@@ -524,6 +612,7 @@ body {
     color: rgba(255, 255, 255, 0.5);
 }
 
+/* Feature bullet list inside a card */
 .pricing-features {
     list-style: none;
     display: flex;
@@ -540,7 +629,11 @@ body {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Intro slide */
+/* --------------------------------------------------------------------------
+   11. INTRO SLIDE
+   Full-screen hero with title, subtitle, and animated entrance
+   -------------------------------------------------------------------------- */
+
 .intro-slide {
     display: flex;
     flex-direction: column;
@@ -551,6 +644,7 @@ body {
     animation: intro-fade-in 1s ease-out;
 }
 
+/* Small uppercase label above title */
 .intro-eyebrow {
     font-size: 12px;
     letter-spacing: 3px;
@@ -559,8 +653,9 @@ body {
     margin-bottom: 24px;
 }
 
+/* Large serif title */
 .intro-title {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 72px;
     font-weight: 400;
     color: #111;
@@ -582,6 +677,7 @@ body {
     margin-bottom: 40px;
 }
 
+/* Pulsing navigation hint at bottom of intro */
 .intro-hint {
     font-size: 13px;
     color: #ccc;
@@ -590,16 +686,32 @@ body {
 }
 
 @keyframes intro-fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes intro-pulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
-/* Hamburger menu */
+/* --------------------------------------------------------------------------
+   12. HAMBURGER MENU
+   Slide-out menu for direct section access
+   -------------------------------------------------------------------------- */
+
+/* Hamburger icon button */
 .hamburger {
     position: fixed;
     top: 28px;
@@ -631,6 +743,7 @@ body {
     background: #333;
 }
 
+/* Open state — transforms bars into X */
 .hamburger.open span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
     background: #333;
@@ -645,6 +758,7 @@ body {
     background: #333;
 }
 
+/* Dimmed backdrop behind menu */
 .menu-overlay {
     position: fixed;
     inset: 0;
@@ -652,6 +766,7 @@ body {
     z-index: 299;
 }
 
+/* Slide-out panel */
 .slide-menu {
     position: fixed;
     top: 0;
@@ -681,6 +796,7 @@ body {
     border-bottom: 1px solid #f0f0f0;
 }
 
+/* Individual menu item */
 .menu-item {
     display: flex;
     align-items: center;
@@ -702,8 +818,9 @@ body {
     background: #f5f5f5;
 }
 
+/* Section number in menu */
 .menu-num {
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 13px;
     color: #ccc;
     min-width: 24px;
@@ -713,6 +830,7 @@ body {
     color: #999;
 }
 
+/* Section name in menu */
 .menu-name {
     font-size: 16px;
     color: #555;
@@ -724,23 +842,33 @@ body {
     font-weight: 500;
 }
 
+/* --------------------------------------------------------------------------
+   13. RESPONSIVE — Tablet (max-width: 768px)
+   -------------------------------------------------------------------------- */
+
 @media (max-width: 768px) {
+    /* Hide section numbers on small screens */
     .section-num {
         display: none;
     }
 
+    /* Show mobile bottom nav */
     .mobile-nav {
         display: flex;
     }
 
+    /* Tighter slide padding */
     .slide {
         padding: 56px 28px 56px;
     }
 
+    /* Smaller video frame */
     .video-frame {
         width: 88vw;
         border-radius: 10px;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.05);
+        box-shadow:
+            0 12px 36px rgba(0, 0, 0, 0.1),
+            0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     .play-btn {
@@ -767,6 +895,7 @@ body {
         margin-top: 4px;
     }
 
+    /* Text content fills available width */
     .text-content {
         max-width: 100%;
     }
@@ -803,6 +932,7 @@ body {
         font-size: 14px;
     }
 
+    /* Stack contact links vertically */
     .contact-links li {
         font-size: 15px;
         flex-direction: column;
@@ -815,6 +945,7 @@ body {
         width: auto;
     }
 
+    /* Smaller nav dots */
     .nav-grid {
         bottom: 20px;
         right: 16px;
@@ -828,6 +959,7 @@ body {
         height: 8px;
     }
 
+    /* Smaller direction hints */
     .dir-hint {
         font-size: 11px;
     }
@@ -836,6 +968,7 @@ body {
         font-size: 16px;
     }
 
+    /* Hide left/right arrows on mobile (use bottom nav instead) */
     .dir-left,
     .dir-right {
         display: none;
@@ -856,6 +989,10 @@ body {
         padding: 8px 16px;
     }
 }
+
+/* --------------------------------------------------------------------------
+   14. RESPONSIVE — Small phone (max-width: 420px)
+   -------------------------------------------------------------------------- */
 
 @media (max-width: 420px) {
     .slide {
@@ -891,6 +1028,11 @@ body {
     }
 }
 
+/* --------------------------------------------------------------------------
+   15. PRINT
+   Static layout for printing — one slide per page
+   -------------------------------------------------------------------------- */
+
 @media print {
     .viewport {
         overflow: visible;
@@ -910,6 +1052,7 @@ body {
         width: 100vw;
     }
 
+    /* Hide all navigation chrome */
     .nav-grid,
     .dir-hint,
     .keyboard-hint,
